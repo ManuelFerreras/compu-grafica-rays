@@ -1,24 +1,28 @@
 # main.py
-
 import pyglet
 from window import AppWindow
-from scene import Scene
 from camera import Camera
 
-WIDTH, HEIGHT = 960, 540
+# Elegí: "normal" | "cpu" | "gpu" (modo inicial)
+SCENE_TYPE = "gpu"
 
 def main():
-    # Creamos una cámara mínima con FOV vertical y aspecto correcto
-    camera = Camera(fov_deg=60.0, aspect=WIDTH/HEIGHT)
+    win = AppWindow(width=1280, height=720, caption=f"Ray Project ({SCENE_TYPE.upper()})")
+    cam = Camera()
 
-    # Creamos una escena base
-    scene = Scene(camera=camera)
+    if SCENE_TYPE == "normal":
+        from scene_normal import SceneNormal
+        scene = SceneNormal(cam)
+    elif SCENE_TYPE == "cpu":
+        from scene_cpu import SceneCPU
+        scene = SceneCPU(cam)
+    elif SCENE_TYPE == "gpu":
+        from scene_gpu import SceneGPU
+        scene = SceneGPU(cam)
+    else:
+        raise ValueError("SCENE_TYPE inválido. Usá: 'normal', 'cpu' o 'gpu'.")
 
-    # Ventana Pyglet + ModernGL
-    win = AppWindow(width=WIDTH, height=HEIGHT, caption="Proyecto de Computación Gráfica - Manuiel Ferreras - Matías Carbel", resizable=True)
     win.set_scene(scene)
-
-    # Arranca el loop
     pyglet.app.run()
 
 if __name__ == "__main__":

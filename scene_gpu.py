@@ -8,7 +8,7 @@ import glm
 import struct
 from pyglet.window import mouse 
 
-class Scene:
+class SceneGPU:
     def __init__(self, camera: Camera):
         self.camera: Camera = camera
         self.objects: List[Cube] = []
