@@ -7,7 +7,7 @@ from camera import Camera
 SCENE_TYPE = "gpu"
 
 def main():
-    win = AppWindow(width=1280, height=720, caption=f"Ray Project ({SCENE_TYPE.upper()})")
+    win = AppWindow(width=1280, height=720, caption=f"{SCENE_TYPE.upper()}")
     cam = Camera()
 
     if SCENE_TYPE == "normal":

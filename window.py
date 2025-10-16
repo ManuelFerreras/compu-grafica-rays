@@ -6,7 +6,7 @@ from pyglet.window import key, mouse
 from camera import Camera
 
 class AppWindow(pyglet.window.Window):
-    def __init__(self, width=1280, height=720, caption="Ray Project", resizable=True):
+    def __init__(self, width=1280, height=720, caption="", resizable=True):
         super().__init__(width=width, height=height, caption=caption, resizable=resizable)
         self.ctx = moderngl.create_context()
         self.clear_color = (0.06, 0.06, 0.08, 1.0)
@@ -56,7 +56,7 @@ class AppWindow(pyglet.window.Window):
             return
 
         self.set_scene(new_scene)
-        self.set_caption(f"Ray Project ({mode.upper()})")
+        self.set_caption(f"{mode.upper()}")
         print(f"[UI] Cambiado a modo: {mode}")
 
     def on_draw(self):
