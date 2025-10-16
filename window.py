@@ -14,7 +14,6 @@ class AppWindow(pyglet.window.Window):
         self.keys = key.KeyStateHandler()
         self.push_handlers(self.keys)
 
-        # Opcional: track de arrastre para "mouse look" con botón derecho
         self._last_drag_x = None
         self._last_drag_y = None
 
@@ -72,14 +71,13 @@ class AppWindow(pyglet.window.Window):
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         """
-        Mouse look opcional: si el botón derecho está presionado, rotamos la cámara
+        Mouse look: si el botón derecho está presionado, rotamos la cámara
         con el delta del mouse (dx,dy). Mantiene el control de luz por click derecho:
-        - Click derecho simple: (Scene) reorienta la luz
-        - Click derecho + arrastrar: rota la cámara (look)
+        - Click derecho simple: reorienta la luz
+        - Click derecho + arrastrar: rota la cámara
         """
         if not self.scene:
             return
 
         if buttons & mouse.RIGHT:
-            # Nota: invertimos dy para que arrastrar hacia arriba mire hacia arriba
-            self.scene.camera.look(dx, -dy)
+            self.scene.camera.look(dx, dy)

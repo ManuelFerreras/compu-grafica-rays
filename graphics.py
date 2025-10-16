@@ -44,7 +44,6 @@ class Graphics:
         )
 
     def create_texture(self, width: int, height: int, data: bytes | None = None):
-        # Formato RGB 8-bit
         self.texture = self.ctx.texture((width, height), components=3, data=data)
         self.texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
 
@@ -55,7 +54,7 @@ class Graphics:
             self.texture.write(data)
 
     def draw(self):
-        # Si hay textura + uniform, la usamos; si no, simplemente dibujamos el quad.
+        # Si hay textura + uniform, la usamos. si no, simplemente dibujamos el quad.
         if self.texture is not None and "u_tex" in self.prog:
             self.texture.use(location=0)
             self.prog["u_tex"].value = 0

@@ -93,7 +93,7 @@ void main() {
     vec3 origin_world = u_cam_pos;
     vec3 dir_world = normalize(mat3(u_inv_view) * dir_cam);
 
-    // 3) Intersección con OBBs (ray world → local en cada objeto)
+    // 3) Intersección con OBBs
     float bestT = 1e20;
     int   bestIdx = -1;
 
@@ -123,7 +123,7 @@ void main() {
     // 4) Shading
     vec3 col;
     if (bestIdx >= 0) {
-        // Recalcular normal local del objeto ganador (por cara) y pasar a mundo
+        // Recalcular normal local del objeto ganador y pasar a mundo
         int  i    = bestIdx;
         mat4 M    = u_model[i];
         mat4 invM = inverse(M);

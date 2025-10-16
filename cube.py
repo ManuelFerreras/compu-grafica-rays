@@ -1,5 +1,4 @@
 # cube.py
-# Cubo con OBB: la colisión rota/escala/traslada junto con el modelo.
 
 import glm
 from hit import HitBoxOBB, HitResult
@@ -11,7 +10,6 @@ def _euler_xyz_to_mat(rx_deg: float, ry_deg: float, rz_deg: float) -> glm.mat4:
     Rx = glm.rotate(glm.mat4(1.0), rx, glm.vec3(1,0,0))
     Ry = glm.rotate(glm.mat4(1.0), ry, glm.vec3(0,1,0))
     Rz = glm.rotate(glm.mat4(1.0), rz, glm.vec3(0,0,1))
-    # Convención: R = Rz * Ry * Rx (podés cambiarla si preferís otra)
     return Rz * Ry * Rx
 
 class Cube:

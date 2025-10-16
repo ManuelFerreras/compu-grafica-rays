@@ -12,15 +12,13 @@ class RayTracer:
     def render(self, width: int, height: int) -> ImageData:
         img = ImageData(width, height, channels=3)
 
-        # 1) Prellenar el cielo por filas (mucho más barato)
         sky_rows = np.zeros((height, 3), dtype=np.uint8)
         for j in range(height):
             v = 1.0 - (j + 0.5) / height
             sky = self.camera.get_sky_gradient(v)
             sky_rows[j] = np.clip(np.array([sky.x, sky.y, sky.z]) * 255.0, 0, 255).astype(np.uint8)
-        img.pixels[:] = sky_rows[:, None, :]  # broadcast por columnas
+        img.pixels[:] = sky_rows[:, None, :]
 
-        # 2) Chequear hits y sobreescribir a rojo
         for j in range(height):
             v = 1.0 - (j + 0.5) / height
             for i in range(width):

@@ -1,5 +1,4 @@
 # hit.py
-# AABB (igual que antes) + OBB transformando rayo a espacio local con inv(model_matrix).
 
 import glm
 from dataclasses import dataclass
@@ -40,15 +39,15 @@ class HitBoxOBB(Hit):
         self.local_max = glm.vec3(*local_max)
 
     def check_hit(self, origin: glm.vec3, direction: glm.vec3) -> HitResult:
-        # 1) Mundo -> Local (usando inv(model))
+        # 1) Mundo -> Local
         M = self.get_model_matrix()
         invM = glm.inverse(M)
 
-        # Transformamos origen como punto (w=1)
+        # Transformamos origen como punto
         o_local4 = invM * glm.vec4(origin, 1.0)
         o_local = glm.vec3(o_local4.x, o_local4.y, o_local4.z)
 
-        # Para la dirección: transformamos un punto en la dirección y restamos
+        # Para la dirección transformamos un punto en la dirección y restamos
         p_world = origin + direction
         p_local4 = invM * glm.vec4(p_world, 1.0)
         p_local = glm.vec3(p_local4.x, p_local4.y, p_local4.z)

@@ -1,5 +1,4 @@
 # ray.py
-# Representación de un rayo con encapsulación y dirección normalizada (listo para Etapa 2).
 
 import glm
 

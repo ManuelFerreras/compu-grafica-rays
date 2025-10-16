@@ -6,7 +6,7 @@ from cube import Cube
 from graphics import Graphics
 import glm
 import struct
-from pyglet.window import mouse  # para mouse.RIGHT
+from pyglet.window import mouse 
 
 class Scene:
     def __init__(self, camera: Camera):
@@ -16,7 +16,7 @@ class Scene:
         self.gfx: Graphics | None = None
         self.ROTATE = True
 
-        # 💡 Dirección de luz (en mundo), inicial: arriba-izquierda
+        # Dirección de luz
         self.light_dir = glm.normalize(glm.vec3(-0.5, 1.0, -0.7))
 
     def start(self):
@@ -33,7 +33,6 @@ class Scene:
         self.gfx.create_fullscreen_quad()
 
     def _mat4_to_bytes(self, m: glm.mat4) -> bytes:
-        # Column-major consistente
         return struct.pack(
             "16f",
             m[0][0], m[0][1], m[0][2], m[0][3],
@@ -67,7 +66,7 @@ class Scene:
         prog["u_sky_top"].value    = (self.camera.sky_top.x, self.camera.sky_top.y, self.camera.sky_top.z)
         prog["u_sky_bottom"].value = (self.camera.sky_bottom.x, self.camera.sky_bottom.y, self.camera.sky_bottom.z)
 
-        # ----- Luz (controlable) -----
+        # ----- Luz -----
         L = glm.normalize(self.light_dir)
         prog["u_light_dir"].value = (L.x, L.y, L.z)
 
@@ -76,7 +75,6 @@ class Scene:
         num = min(len(self.objects), MAX_OBJECTS)
         prog["u_num_objs"].value = int(num)
 
-        # u_model: subir SIEMPRE 16 mat4 (identidad para los que faltan)
         mats = []
         for i in range(MAX_OBJECTS):
             if i < num:
@@ -86,7 +84,6 @@ class Scene:
             mats.append(self._mat4_to_bytes(m))
         prog["u_model"].write(b"".join(mats))
 
-        # u_color: subir SIEMPRE 16 vec4 (rgba)
         palette = [
             (0.82, 0.20, 0.24, 1.0),  # A: rojo
             (0.20, 0.65, 0.90, 1.0),  # B: celeste
@@ -97,7 +94,7 @@ class Scene:
             if i < len(self.objects) and i < len(palette):
                 colors16.append(palette[i])
             else:
-                colors16.append((0.6, 0.6, 0.6, 1.0))  # gris por defecto
+                colors16.append((0.6, 0.6, 0.6, 1.0))
         prog["u_color"].write(self._colors_to_bytes_vec4(colors16))
 
         # Draw
@@ -111,19 +108,19 @@ class Scene:
 
     def on_mouse_click(self, u: float, v: float, button: int, modifiers: int):
         """
-        Click izquierdo: picking (logs).
+        Click izquierdo: picking.
         Click derecho: reorienta la luz según la posición del click.
         """
         if button == mouse.RIGHT:
-            # Mapear coords de ventana (u,v en [0,1]) a una dirección en hemisferio
+            # Mapear coords de ventana a una dirección en hemisferio
             x = 2.0 * u - 1.0
             y = 2.0 * v - 1.0
-            # z negativo “hacia la escena” para que ilumine desde la pantalla hacia adentro
+            # z negativo hacia la escena para que ilumine desde la pantalla hacia adentro
             self.light_dir = glm.normalize(glm.vec3(x, 1.0, -y))
             print(f"[Light] Dir = ({self.light_dir.x:.2f}, {self.light_dir.y:.2f}, {self.light_dir.z:.2f})")
             return
 
-        # Picking con botón izquierdo (como antes)
+        # Picking con botón izquierdo
         ray = self.camera.raycast(u, v)
         closest_name = None
         closest_t = float('inf')
