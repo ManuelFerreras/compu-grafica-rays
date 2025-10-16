@@ -1,4 +1,4 @@
-# Ray Project – Computación Gráfica (UCC)
+# Proyecto Parcial Computacion Grafica
 
 **Integrantes:**  
 - Manuel Ferreras – 2319258  

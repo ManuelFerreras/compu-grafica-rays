@@ -4,7 +4,7 @@ import moderngl
 from pyglet.window import key, mouse
 
 class AppWindow(pyglet.window.Window):
-    def __init__(self, width=1280, height=720, caption="Ray Project", resizable=True):
+    def __init__(self, width=1280, height=720, caption="Proyecto de Computación Gráfica - Manuel Ferreras - Matías Carbel", resizable=True):
         super().__init__(width=width, height=height, caption=caption, resizable=resizable)
         self.ctx = moderngl.create_context()
         self.clear_color = (0.06, 0.06, 0.08, 1.0)

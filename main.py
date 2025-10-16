@@ -15,7 +15,7 @@ def main():
     scene = Scene(camera=camera)
 
     # Ventana Pyglet + ModernGL
-    win = AppWindow(width=WIDTH, height=HEIGHT, caption="Ray Project – Etapa 1", resizable=True)
+    win = AppWindow(width=WIDTH, height=HEIGHT, caption="Proyecto de Computación Gráfica - Manuiel Ferreras - Matías Carbel", resizable=True)
     win.set_scene(scene)
 
     # Arranca el loop
